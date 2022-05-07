@@ -15,6 +15,4 @@ public class TestKafkaProducer {
             KafkaProducer<String,String> producer = new KafkaProducer<String, String>(properties);
             return producer;
         }
-
-
 }
