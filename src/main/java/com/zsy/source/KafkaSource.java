@@ -1,11 +1,17 @@
 package com.zsy.source;
 
 import com.zsy.pojo.Event;
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.util.Collector;
 
+import java.util.Collection;
 import java.util.Properties;
 
 public class KafkaSource {
@@ -28,7 +34,7 @@ public class KafkaSource {
 //        env.execute();
 
         DataStreamSource<Event> stream = env.addSource(new CustomClickSource());
-        stream.print("customSource");
+
         env.execute();
     }
 }

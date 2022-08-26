@@ -31,8 +31,13 @@ public class CustomClickSource implements SourceFunction<Event> {
 
     }
 
+
+
     @Override
     public void cancel() {
         running = false;
     }
+
+
+
 }
