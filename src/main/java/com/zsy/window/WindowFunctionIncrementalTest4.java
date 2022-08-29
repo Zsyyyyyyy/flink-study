@@ -33,7 +33,7 @@ public class WindowFunctionIncrementalTest4 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment().setParallelism(1);
 
-        DataStreamSource<String> stream = env.socketTextStream("127.0.0.1", 7777);
+        DataStreamSource<String> stream = env.socketTextStream("localhost", 7777);
 
         SingleOutputStreamOperator<Event> map = stream.map(new MapFunction<String, Event>() {
             @Override
@@ -52,6 +52,8 @@ public class WindowFunctionIncrementalTest4 {
 
         SingleOutputStreamOperator<String> process = eventSingleOutputStreamOperator.keyBy(data -> data.user).window(TumblingEventTimeWindows.of(Time.seconds(10))).process(new WatermarkTestResult());
         process.print();
+
+        env.execute();
     }
 
     public static class WatermarkTestResult extends ProcessWindowFunction<Event, String, String, TimeWindow> {
