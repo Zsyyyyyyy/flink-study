@@ -14,8 +14,6 @@ import org.apache.kafka.connect.data.Field;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 
-import java.util.Locale;
-
 
 public class Flink_CDCWithCustomerSchema {
     public static void main(String[] args) throws Exception {

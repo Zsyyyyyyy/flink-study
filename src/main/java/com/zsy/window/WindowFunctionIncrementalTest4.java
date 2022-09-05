@@ -43,14 +43,17 @@ public class WindowFunctionIncrementalTest4 {
             }
         });
 
-        SingleOutputStreamOperator<Event> eventSingleOutputStreamOperator = map.assignTimestampsAndWatermarks(WatermarkStrategy.<Event>forBoundedOutOfOrderness(Duration.ofSeconds(5)).withTimestampAssigner(new SerializableTimestampAssigner<Event>() {
+        SingleOutputStreamOperator<Event> eventSingleOutputStreamOperator = map
+                        .assignTimestampsAndWatermarks(WatermarkStrategy.<Event>forBoundedOutOfOrderness(Duration.ZERO)
+                        .withTimestampAssigner(new SerializableTimestampAssigner<Event>() {
             @Override
             public long extractTimestamp(Event event, long l) {
                 return event.timestamp;
             }
         }));
 
-        SingleOutputStreamOperator<String> process = eventSingleOutputStreamOperator.keyBy(data -> data.user).window(TumblingEventTimeWindows.of(Time.seconds(10))).process(new WatermarkTestResult());
+        SingleOutputStreamOperator<String> process = eventSingleOutputStreamOperator.keyBy(data -> data.user)
+                .window(TumblingEventTimeWindows.of(Time.seconds(10))).process(new WatermarkTestResult());
         process.print();
 
         env.execute();
