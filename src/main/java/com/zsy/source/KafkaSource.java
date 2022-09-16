@@ -15,26 +15,30 @@ import java.util.Collection;
 import java.util.Properties;
 
 public class KafkaSource {
-    public static void main(String[] args) throws Exception {
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment().setParallelism(1);
-//        Properties prop = new Properties();
-//        prop.setProperty("bootstrap.servers","centos111");
-//        prop.setProperty("group.id","consumer-group");
-//        prop.setProperty("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
-//        prop.setProperty("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
-//        prop.setProperty("auto.offset.reset","latest");
-//
-//        DataStreamSource<String> stream = env.addSource(new FlinkKafkaConsumer<String>(
-//                "clicks",
-//                new SimpleStringSchema(),
-//                prop
-//        ));
-//
-//        stream.print("kafka");
-//        env.execute();
+  public static void main(String[] args) throws Exception {
+    StreamExecutionEnvironment env =
+        StreamExecutionEnvironment.getExecutionEnvironment().setParallelism(1);
+    //        Properties prop = new Properties();
+    //        prop.setProperty("bootstrap.servers","centos111");
+    //        prop.setProperty("group.id","consumer-group");
+    //
+    // prop.setProperty("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+    //
+    // prop.setProperty("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
+    //        prop.setProperty("auto.offset.reset","latest");
+    //
+    //        DataStreamSource<String> stream = env.addSource(new FlinkKafkaConsumer<String>(
+    //                "clicks",
+    //                new SimpleStringSchema(),
+    //                prop
+    //        ));
+    //
+    //        stream.print("kafka");
+    //        env.execute();
 
-        DataStreamSource<Event> stream = env.addSource(new CustomClickSource());
+    DataStreamSource<Event> stream = env.addSource(new CustomClickSource());
+    stream.print();
 
-        env.execute();
-    }
+    env.execute();
+  }
 }
