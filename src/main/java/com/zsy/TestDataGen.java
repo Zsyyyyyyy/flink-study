@@ -9,6 +9,7 @@ import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.connector.datagen.source.DataGeneratorSource;
 import org.apache.flink.connector.datagen.source.GeneratorFunction;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
@@ -35,10 +36,14 @@ public class TestDataGen {
         SingleOutputStreamOperator<Integer> map = ds.map(new MapFunction<String, Integer>() {
             @Override
             public Integer map(String s) throws Exception {
-                return 1;
+                return Integer.parseInt(s);
             }
         });
-        map.print();
+
+        KeyedStream<Integer, Integer> stringStringKeyedStream = map.keyBy(e -> e);
+
+//        SingleOutputStreamOperator<Integer> sum = stringStringKeyedStream.sum(0);
+        stringStringKeyedStream.print();
 
         env.execute();
 
